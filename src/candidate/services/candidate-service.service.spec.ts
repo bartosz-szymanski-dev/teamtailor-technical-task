@@ -4,8 +4,8 @@ import { HttpService } from '@nestjs/axios';
 import { of, throwError } from 'rxjs';
 import { AxiosError, AxiosResponse } from 'axios';
 import { Logger } from '@nestjs/common';
-import { ListRequestConfigFactory } from '../factories/list-request-config.factory';
 import ListRequestUrlBuilder from '../builders/list-request-url.builder';
+import ListRequestConfigFactory from '../factories/list-request-config.factory';
 
 describe('CandidateService', () => {
   let service: CandidateService;

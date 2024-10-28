@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { catchError, firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
-import { ListRequestConfigFactory } from '../factories/list-request-config.factory';
+import ListRequestConfigFactory from '../factories/list-request-config.factory';
 import ListRequestUrlBuilder from '../builders/list-request-url.builder';
 
 @Injectable()

@@ -1,4 +1,4 @@
-import { ListRequestConfigFactory } from './list-request-config.factory';
+import ListRequestConfigFactory from './list-request-config.factory';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 
