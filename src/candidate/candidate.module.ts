@@ -1,9 +1,20 @@
 import { Module } from '@nestjs/common';
 import { CandidateService } from './services/candidate.service';
+import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
+import ListRequestConfigFactory from './factories/list-request-config.factory';
+import ListRequestUrlBuilder from './builders/list-request-url.builder';
+import { CandidateController } from './controllers/candidate.controller';
+import ResponseErrorMessageResolver from './resolvers/response-error-message.resolver';
 
 @Module({
-  imports: [HttpModule],
-  providers: [CandidateService],
+  imports: [HttpModule, ConfigModule],
+  providers: [
+    CandidateService,
+    ListRequestConfigFactory,
+    ListRequestUrlBuilder,
+    ResponseErrorMessageResolver,
+  ],
+  controllers: [CandidateController],
 })
 export class CandidateModule {}

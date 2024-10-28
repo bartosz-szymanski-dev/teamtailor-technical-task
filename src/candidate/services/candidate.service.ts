@@ -4,6 +4,7 @@ import { catchError, firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
 import ListRequestConfigFactory from '../factories/list-request-config.factory';
 import ListRequestUrlBuilder from '../builders/list-request-url.builder';
+import { CandidateInterface } from '../interfaces/candidate.interface';
 
 @Injectable()
 export class CandidateService {
@@ -15,13 +16,13 @@ export class CandidateService {
     private readonly listRequestUrlBuilder: ListRequestUrlBuilder,
   ) {}
 
-  async findAll() /*: Promise<Array<CandidateInterface>>*/ {
+  async findAll(): Promise<Array<CandidateInterface>> {
     const { data } = await firstValueFrom(
       this.httpService
         .get(this.getUrl(), this.listRequestConfigFactory.create())
         .pipe(
           catchError((error: AxiosError) => {
-            this.logger.error(error.response.data); // TODO: check
+            this.logger.error(error.response.data);
 
             throw error;
           }),
@@ -33,7 +34,7 @@ export class CandidateService {
 
   private getUrl(): string {
     return this.listRequestUrlBuilder
-      .setPath('/candidates')
+      .setPath('/v1/candidates')
       .addInclude('job-applications')
       .build();
   }
