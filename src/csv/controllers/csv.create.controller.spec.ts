@@ -3,10 +3,10 @@ import { CsvService } from '../services/csv.service';
 import { Response } from 'express';
 import { HttpStatus } from '@nestjs/common';
 import { CandidateResponseModel } from '../../candidate/models/candidate.response.model';
-import CsvController from './csv.controller';
+import CsvCreateController from './csv.create.controller';
 
 describe('CsvController', () => {
-  let controller: CsvController;
+  let controller: CsvCreateController;
   let csvService: CsvService;
   let mockResponse: Partial<Response>;
 
@@ -17,7 +17,7 @@ describe('CsvController', () => {
     };
 
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [CsvController],
+      controllers: [CsvCreateController],
       providers: [
         {
           provide: CsvService,
@@ -26,7 +26,7 @@ describe('CsvController', () => {
       ],
     }).compile();
 
-    controller = module.get<CsvController>(CsvController);
+    controller = module.get<CsvCreateController>(CsvCreateController);
     csvService = module.get<CsvService>(CsvService);
   });
 
