@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CsvService } from './csv.service';
 import CsvProcessor from '../processors/csv.processor';
-import { CandidateResponseInterface } from '../../candidate/interfaces/candidate.response.interface';
+import { CandidateResponseModel } from '../../candidate/models/candidate.response.model';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import * as os from 'node:os';
@@ -38,7 +38,7 @@ describe('CsvServiceService', () => {
     ];
     jest.spyOn(csvProcessor, 'process').mockReturnValue(processorOutput);
 
-    const result = await service.convertToCsv({} as CandidateResponseInterface);
+    const result = await service.convertToCsv({} as CandidateResponseModel);
     expect(result).toBeTruthy();
     await fs.rm(path.join(os.tmpdir(), `${result}.csv`));
   });

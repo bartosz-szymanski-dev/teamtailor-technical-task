@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CandidateResponseInterface } from '../../candidate/interfaces/candidate.response.interface';
+import { CandidateResponseModel } from '../../candidate/models/candidate.response.model';
 import CsvProcessor from '../processors/csv.processor';
 import * as fsPromises from 'node:fs/promises';
 import * as fs from 'node:fs';
@@ -13,7 +13,7 @@ export class CsvService {
   constructor(private readonly csvProcessor: CsvProcessor) {}
 
   public async convertToCsv(
-    candidateResponse: CandidateResponseInterface,
+    candidateResponse: CandidateResponseModel,
   ): Promise<string> {
     const temporaryDirectory = await fsPromises.realpath(os.tmpdir());
     const uuid = uuidV4();
