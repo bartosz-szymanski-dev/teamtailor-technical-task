@@ -11,8 +11,8 @@ import { CandidateResponseModel } from '../../candidate/models/candidate.respons
 import { CsvService } from '../services/csv.service';
 
 @Controller('/csv')
-export default class CsvController {
-  private logger: Logger = new Logger(CsvController.name);
+export default class CsvCreateController {
+  private logger: Logger = new Logger(CsvCreateController.name);
   constructor(private readonly csvService: CsvService) {}
 
   @Post('/create')
