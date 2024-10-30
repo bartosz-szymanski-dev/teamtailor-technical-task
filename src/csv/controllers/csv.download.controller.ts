@@ -1,4 +1,11 @@
-import { Body, Controller, Logger, Post, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpStatus,
+  Logger,
+  Post,
+  Res,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { DownloadDto } from '../dtos/download.dto';
 import * as path from 'node:path';
@@ -19,9 +26,9 @@ export default class CsvDownloadController {
       const csvFileName = `${csvFileNameUuid}.csv`;
       const tmpDirPath = path.join(os.tmpdir(), csvFileName);
       await fs.access(tmpDirPath);
-      response.status(200).download(tmpDirPath, csvFileName);
+      response.status(HttpStatus.OK).download(tmpDirPath, csvFileName);
     } catch (error) {
-      response.status(404).json({ message: 'File not found' });
+      response.status(HttpStatus.NOT_FOUND).json({ message: 'File not found' });
       this.logger.error(error.message, error.stack);
     }
   }
