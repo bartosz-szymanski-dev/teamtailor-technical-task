@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { CandidateResponseInterface } from '../../candidate/interfaces/candidate.response.interface';
-import { CandidateInterface } from '../../candidate/interfaces/candidate.interface';
+import { CandidateResponseModel } from '../../candidate/models/candidate.response.model';
+import { CandidateModel } from '../../candidate/models/candidate.model';
 import { ProcessorOutputInterface } from '../interfaces/processor.output.interface';
 
 @Injectable()
 export default class CsvProcessor {
   public process(
-    candidateResponse: CandidateResponseInterface,
+    candidateResponse: CandidateResponseModel,
   ): ProcessorOutputInterface[] {
     return candidateResponse.data.map(
-      (candidate: CandidateInterface): ProcessorOutputInterface => {
+      (candidate: CandidateModel): ProcessorOutputInterface => {
         const {
           email,
           'first-name': firstName,

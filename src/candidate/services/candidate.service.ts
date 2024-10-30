@@ -4,7 +4,7 @@ import { catchError, firstValueFrom } from 'rxjs';
 import { AxiosError } from 'axios';
 import ListRequestConfigFactory from '../factories/list-request-config.factory';
 import ListRequestUrlBuilder from '../builders/list-request-url.builder';
-import { CandidateResponseInterface } from '../interfaces/candidate.response.interface';
+import { CandidateResponseModel } from '../models/candidate.response.model';
 
 @Injectable()
 export class CandidateService {
@@ -16,7 +16,7 @@ export class CandidateService {
     private readonly listRequestUrlBuilder: ListRequestUrlBuilder,
   ) {}
 
-  async findAll(): Promise<CandidateResponseInterface> {
+  async findAll(): Promise<CandidateResponseModel> {
     const { data } = await firstValueFrom(
       this.httpService
         .get(this.getUrl(), this.listRequestConfigFactory.create())

@@ -7,7 +7,7 @@ import {
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { CandidateResponseInterface } from '../../candidate/interfaces/candidate.response.interface';
+import { CandidateResponseModel } from '../../candidate/models/candidate.response.model';
 import { CsvService } from '../services/csv.service';
 
 @Controller('/csv')
@@ -18,15 +18,15 @@ export default class CsvController {
   @Post('/create')
   async create(
     @Res() response: Response,
-    @Body() csvDto: CandidateResponseInterface,
+    @Body() csvDto: CandidateResponseModel,
   ): Promise<void> {
     try {
       const csvFileName = await this.csvService.convertToCsv(csvDto);
       response.status(HttpStatus.CREATED).json({ csvFileName });
-    } catch (e) {
+    } catch (error) {
       const message = 'Internal server error';
       response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ message });
-      this.logger.error(message, e.stack);
+      this.logger.error(message, error.stack);
     }
   }
 }
