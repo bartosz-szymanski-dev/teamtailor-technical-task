@@ -1,5 +1,4 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { DownloadDto } from '../dtos/download.dto';
 import * as path from 'node:path';
 import * as fs from 'node:fs/promises';
 import { Response } from 'express';
@@ -28,15 +27,14 @@ describe('CsvDownloadController', () => {
   });
 
   it('should download the file if it exists', async () => {
-    const downloadDto = new DownloadDto();
-    downloadDto.csvFileNameUuid = 'test-uuid';
-    const csvFileName = `${downloadDto.csvFileNameUuid}.csv`;
+    const csvFileNameUuid = 'test-uuid';
+    const csvFileName = `${csvFileNameUuid}.csv`;
     const tmpDirPath = path.join('/tmp', csvFileName);
 
     jest.spyOn(os, 'tmpdir').mockReturnValueOnce('/tmp');
     jest.spyOn(fs, 'access').mockResolvedValueOnce();
 
-    await controller.download(mockResponse as Response, downloadDto);
+    await controller.download(mockResponse as Response, csvFileNameUuid);
 
     expect(fs.access).toHaveBeenCalledWith(tmpDirPath);
     expect(mockResponse.status).toHaveBeenCalledWith(200);
@@ -44,13 +42,12 @@ describe('CsvDownloadController', () => {
   });
 
   it('should return 404 and error message if file does not exist', async () => {
-    const downloadDto = new DownloadDto();
-    downloadDto.csvFileNameUuid = 'nonexistent-uuid';
+    const csvFileNameUuid = 'nonexistent-uuid';
 
     jest.spyOn(fs, 'access').mockRejectedValueOnce(new Error('File not found'));
     jest.spyOn(os, 'tmpdir').mockReturnValueOnce('/tmp');
 
-    await controller.download(mockResponse as Response, downloadDto);
+    await controller.download(mockResponse as Response, csvFileNameUuid);
 
     expect(fs.access).toHaveBeenCalled();
     expect(mockResponse.status).toHaveBeenCalledWith(404);

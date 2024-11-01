@@ -38,10 +38,6 @@ describe('CandidateControllerController', () => {
     candidateService = module.get<CandidateService>(CandidateService);
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
-  });
-
   it('should call CustomerService', () => {
     const spy = jest.spyOn(candidateService, 'findAll');
     const responseObject = {};
