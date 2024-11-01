@@ -10,6 +10,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      TEAMTAILOR_API_URL: ${{ secrets.API_URL }}
+      TEAMTAILOR_API_VERSION: ${{ secrets.API_VERSION }}
+      TEAMTAILOR_API_KEY: ${{ secrets.API_KEY }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
