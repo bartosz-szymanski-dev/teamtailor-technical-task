@@ -10,6 +10,7 @@ import { ResponseErrorStatusResolver } from './resolvers/response-error-status.r
 import { CsvModule } from '../csv/csv.module';
 import { CsvProcessor } from '../csv/processors/csv.processor';
 import { CsvService } from '../csv/services/csv.service';
+import { ThrottlingService } from '../services/throttling.service';
 
 @Module({
   imports: [HttpModule, ConfigModule, CsvModule],
@@ -21,6 +22,7 @@ import { CsvService } from '../csv/services/csv.service';
     ResponseErrorStatusResolver,
     CsvProcessor,
     CsvService,
+    ThrottlingService,
   ],
   controllers: [CandidateController],
 })

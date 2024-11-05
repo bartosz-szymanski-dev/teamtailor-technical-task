@@ -1,4 +1,4 @@
-import ResponseErrorStatusResolver from './response-error-status.resolver';
+import { ResponseErrorStatusResolver } from './response-error-status.resolver';
 import { Test, TestingModule } from '@nestjs/testing';
 
 describe('ResponseErrorStatusResolver', () => {

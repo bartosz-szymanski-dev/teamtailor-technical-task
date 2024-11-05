@@ -1,45 +1,79 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CsvService } from './csv.service';
-import CsvProcessor from '../processors/csv.processor';
-import { CandidateResponseModel } from '../../candidate/models/candidate.response.model';
-import * as fs from 'node:fs/promises';
-import * as path from 'node:path';
+import * as fsPromises from 'node:fs/promises';
+import * as fs from 'node:fs';
 import * as os from 'node:os';
+import * as path from 'node:path';
+import { ProcessorOutputInterface } from '../interfaces/processor.output.interface';
 
-describe('CsvServiceService', () => {
+jest.mock('node:fs/promises');
+jest.mock('node:fs');
+jest.mock('@json2csv/node', () => ({
+  AsyncParser: jest.fn().mockImplementation(() => ({
+    parse: jest.fn().mockReturnValue({
+      promise: jest
+        .fn()
+        .mockResolvedValue(
+          'candidate_id,first_name,last_name,email,job_application_created_at,job_application_id\n1,John,Doe,john@doe.com,,',
+        ),
+    }),
+  })),
+}));
+
+describe('CsvService', () => {
   let service: CsvService;
-  let csvProcessor: CsvProcessor;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        CsvService,
-        {
-          provide: CsvProcessor,
-          useValue: { process: jest.fn() },
-        },
-      ],
+      providers: [CsvService],
     }).compile();
 
     service = module.get<CsvService>(CsvService);
-    csvProcessor = module.get<CsvProcessor>(CsvProcessor);
   });
 
-  it('should return uuid from generated filename', async () => {
-    const processorOutput = [
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should generate a CSV file and return its filepath', async () => {
+    const mockProcessorOutput: ProcessorOutputInterface[] = [
       {
-        candidate_id: '25235329',
-        first_name: 'Lill',
-        last_name: 'Friman',
-        email: 'lill_friman_12_sandbox_teamtailor_developer@example.com',
-        job_application_id: '29305118',
-        job_application_created_at: '2022-03-22T15:59:12.658+01:00',
+        candidate_id: '1',
+        first_name: 'John',
+        last_name: 'Doe',
+        email: 'john@doe.com',
+        job_application_created_at: '',
+        job_application_id: '',
       },
     ];
-    jest.spyOn(csvProcessor, 'process').mockReturnValue(processorOutput);
+    const mockTempDir = '/tmp';
+    const mockFilepath = path.join(
+      mockTempDir,
+      `candidate-list-export-${service['getDate']()}.csv`,
+    );
 
-    const result = await service.convertToCsv({} as CandidateResponseModel);
-    expect(result).toBeTruthy();
-    await fs.rm(path.join(os.tmpdir(), `${result}.csv`));
+    jest.spyOn(os, 'tmpdir').mockReturnValue(mockTempDir);
+    jest.spyOn(fsPromises, 'realpath').mockResolvedValue(mockTempDir);
+    const mockWriteStream = {
+      write: jest.fn(),
+      end: jest.fn(),
+    };
+    jest.spyOn(fs, 'createWriteStream').mockReturnValue(mockWriteStream as any);
+
+    const filepath = await service.convertToCsv(mockProcessorOutput);
+
+    expect(fsPromises.realpath).toHaveBeenCalledWith(mockTempDir);
+    expect(fs.createWriteStream).toHaveBeenCalledWith(mockFilepath);
+    expect(mockWriteStream.write).toHaveBeenCalledWith(
+      'candidate_id,first_name,last_name,email,job_application_created_at,job_application_id\n1,John,Doe,john@doe.com,,',
+    );
+    expect(filepath).toBe(mockFilepath);
+  });
+
+  it('should format date correctly in getDate method', () => {
+    const date = service['getDate']();
+    const datePattern = /^\d{8}\d{6}$/;
+
+    expect(date).toMatch(datePattern);
   });
 });

@@ -24,9 +24,8 @@ export class CsvService {
 
   private getDate(): string {
     return new Date()
-      .toJSON()
-      .replace(/T/, '')
-      .replace(/\.\w*/, '')
-      .replace(/([:\-])/g, '');
+      .toISOString()
+      .replace(/[T:.\-]/g, '')
+      .slice(0, 14);
   }
 }

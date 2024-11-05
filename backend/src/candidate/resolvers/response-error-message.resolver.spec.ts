@@ -1,4 +1,4 @@
-import ResponseErrorMessageResolver from './response-error-message.resolver';
+import { ResponseErrorMessageResolver } from './response-error-message.resolver';
 import { Test, TestingModule } from '@nestjs/testing';
 
 describe('ResponseErrorMessageResolver', () => {

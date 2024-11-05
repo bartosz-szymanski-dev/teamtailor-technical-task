@@ -7,6 +7,7 @@ import { ListRequestUrlBuilder } from '../builders/list-request-url.builder';
 import { CandidateResponseModel } from '../models/candidate.response.model';
 import { ProcessorOutputInterface } from '../../csv/interfaces/processor.output.interface';
 import { CsvProcessor } from '../../csv/processors/csv.processor';
+import { ThrottlingService } from '../../services/throttling.service';
 
 @Injectable()
 export class CandidateService {
@@ -17,6 +18,7 @@ export class CandidateService {
     private readonly listRequestConfigFactory: ListRequestConfigFactory,
     private readonly listRequestUrlBuilder: ListRequestUrlBuilder,
     private readonly csvProcessor: CsvProcessor,
+    private readonly throttlingService: ThrottlingService,
   ) {}
 
   async findAll(): Promise<ProcessorOutputInterface[]> {
@@ -29,6 +31,9 @@ export class CandidateService {
           this.csvProcessor.process(responseModel),
         );
         nextUrl = responseModel.links?.next ?? null;
+        if (nextUrl) {
+          await this.throttlingService.throttle();
+        }
       } catch (error) {
         this.logger.error(error);
         throw error;
