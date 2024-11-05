@@ -4,7 +4,7 @@ import { CandidateModel } from '../../candidate/models/candidate.model';
 import { ProcessorOutputInterface } from '../interfaces/processor.output.interface';
 
 @Injectable()
-export default class CsvProcessor {
+export class CsvProcessor {
   public process(
     candidateResponse: CandidateResponseModel,
   ): ProcessorOutputInterface[] {

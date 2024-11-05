@@ -17,10 +17,8 @@
       <v-row>
         <v-col cols="12">
           <v-btn
-            block
-            :disabled="appStore.loading"
-            :loading="appStore.loading"
-            @click="appStore.initDownload()"
+            class="mx-auto"
+            :href="downloadCandidatesUrl"
           >Download candidates data</v-btn>
         </v-col>
       </v-row>
@@ -29,7 +27,14 @@
 </template>
 
 <script setup lang="ts">
-  import { useAppStore } from '@/stores/app'
-
-  const appStore = useAppStore()
+  const downloadCandidatesUrl = computed<string>((): string => {
+    return new URL('/api/candidate/list/download', window.origin).toString()
+  })
 </script>
+
+<style>
+.mx-auto {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+</style>

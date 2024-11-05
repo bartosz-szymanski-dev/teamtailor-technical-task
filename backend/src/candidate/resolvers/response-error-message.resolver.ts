@@ -2,7 +2,7 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { AxiosError } from 'axios';
 
 @Injectable()
-export default class ResponseErrorMessageResolver {
+export class ResponseErrorMessageResolver {
   public resolve(error: AxiosError | any): string {
     if (!error.response) {
       return 'Internal Server Error';

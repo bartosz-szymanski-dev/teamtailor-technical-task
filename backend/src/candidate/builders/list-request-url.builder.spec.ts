@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config';
-import ListRequestUrlBuilder from './list-request-url.builder';
+import { ListRequestUrlBuilder } from './list-request-url.builder';
 import { Test, TestingModule } from '@nestjs/testing';
 
 describe('ListRequestUrlBuilder', () => {

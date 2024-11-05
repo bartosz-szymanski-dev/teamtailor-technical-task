@@ -1,4 +1,4 @@
-import CsvProcessor from './csv.processor';
+import { CsvProcessor } from './csv.processor';
 import { Test, TestingModule } from '@nestjs/testing';
 
 describe('CsvProcessor', () => {
@@ -57,4 +57,7 @@ const testData = {
       },
     },
   ],
+  links: {
+    next: null,
+  },
 };

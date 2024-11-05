@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { ListRequestIncludeType } from '../types/list-request-include.type';
 
 @Injectable()
-export default class ListRequestUrlBuilder {
+export class ListRequestUrlBuilder {
   private url: URL;
   private path: string;
   private includes: ListRequestIncludeType[] = [];

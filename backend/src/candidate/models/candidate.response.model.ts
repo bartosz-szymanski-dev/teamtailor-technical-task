@@ -1,6 +1,7 @@
 import { CandidateModel } from './candidate.model';
 import { ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { CandidateLinksModel } from './candidate.links.model';
 
 export class CandidateResponseModel {
   @ValidateNested()
@@ -8,4 +9,6 @@ export class CandidateResponseModel {
   data: CandidateModel[];
 
   included?: any[];
+
+  links: CandidateLinksModel;
 }

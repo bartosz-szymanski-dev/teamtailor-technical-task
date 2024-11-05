@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { AxiosRequestConfig } from 'axios';
 
 @Injectable()
-export default class ListRequestConfigFactory {
+export class ListRequestConfigFactory {
   constructor(private readonly configService: ConfigService) {}
 
   create(): AxiosRequestConfig {
