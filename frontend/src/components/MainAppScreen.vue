@@ -1,40 +1,44 @@
 <template>
   <v-container class="fill-height">
-    <v-responsive
-      class="align-center fill-height mx-auto"
-      max-width="900"
-    >
-      <div class="text-center">
-        <div class="text-body-2 font-weight-light mb-n1">Technical Task</div>
+    <v-fade-transition>
+      <v-responsive
+        v-show="showContent"
+        class="align-center fill-height mx-auto"
+        max-width="900"
+      >
+        <intro />
 
-        <h1 class="text-h2 font-weight-bold">Teamtailor</h1>
+        <div class="py-4" />
 
-        <strong class="text-body-2 font-weight-light mt-1">by Bartosz Szymański</strong>
-      </div>
+        <v-row justify="center">
+          <v-col cols="auto">
+            <download-button @file-download="onFileDownload" />
+          </v-col>
 
-      <div class="py-4" />
-
-      <v-row>
-        <v-col cols="12">
-          <v-btn
-            class="mx-auto"
-            :href="downloadCandidatesUrl"
-          >Download candidates data</v-btn>
-        </v-col>
-      </v-row>
-    </v-responsive>
+          <v-col cols="12">
+            <v-fade-transition>
+              <thanks-for-download v-show="showThanksForDownload" />
+            </v-fade-transition>
+          </v-col>
+        </v-row>
+      </v-responsive>
+    </v-fade-transition>
   </v-container>
 </template>
 
 <script setup lang="ts">
-  const downloadCandidatesUrl = computed<string>((): string => {
-    return new URL('/api/candidate/list/download', window.origin).toString()
-  })
-</script>
+  const showThanksForDownload = ref<boolean>(false)
+  const showContent = ref<boolean>(false)
 
-<style>
-.mx-auto {
-  margin-left: auto !important;
-  margin-right: auto !important;
-}
-</style>
+  onMounted((): void => {
+    setTimeout((): void => {
+      showContent.value = true
+    }, 300)
+  })
+
+  const onFileDownload = (): void => {
+    setTimeout((): void => {
+      showThanksForDownload.value = true
+    }, 800)
+  }
+</script>

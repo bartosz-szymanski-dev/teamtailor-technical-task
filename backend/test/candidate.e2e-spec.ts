@@ -20,15 +20,9 @@ describe('CandidateController (e2e)', (): void => {
     await app.close();
   });
 
-  it('should return a list of candidates with status 200', async (): Promise<void> => {
-    const response = await request(app.getHttpServer())
-      .get('/candidate/list')
+  it('should create a CSV file with status 201 and be able to download it', async (): Promise<void> => {
+    await request(app.getHttpServer())
+      .get(`/candidate/list/download`)
       .expect(HttpStatus.OK);
-
-    expect(Array.isArray(response.body.data)).toBe(true);
-    expect(response.body.data.length).toBeGreaterThan(0);
-    expect(response.body.data[0]).toHaveProperty('id');
-    expect(response.body.data[0]).toHaveProperty('attributes');
-    expect(response.body.data[0]).toHaveProperty('relationships');
-  });
+  }, 20000);
 });

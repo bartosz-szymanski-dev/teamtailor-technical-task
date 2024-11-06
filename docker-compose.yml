@@ -3,13 +3,9 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    ports:
-      - "8081:8080"
-    environment:
-      - API_URL=http://backend:3000
     volumes:
-      - ./frontend:/app                  # Powiązanie lokalnego katalogu z katalogiem aplikacji
-      - /app/node_modules                 # Oddzielny wolumen dla node_modules, aby uniknąć nadpisania
+      - ./frontend:/app
+      - /app/node_modules
       - frontend_node_modules:/app/node_modules
     depends_on:
       - backend
@@ -18,12 +14,12 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
     volumes:
       - ./backend:/app
+      - /app/node_modules
+      - backend_node_modules:/app/node_modules
 
   nginx:
     image: nginx:alpine
@@ -37,3 +33,5 @@ services:
 
 volumes:
   frontend_node_modules:
+  backend_node_modules:
+  backend_dist:
