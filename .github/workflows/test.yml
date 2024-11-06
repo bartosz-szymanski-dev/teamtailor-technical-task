@@ -25,18 +25,23 @@ jobs:
           node-version: '20'
 
       - name: Install dependencies
+        working-directory: ./backend
         run: npm install
 
       - name: Build application
+        working-directory: ./backend
         run: npm run build
 
       - name: Start application
+        working-directory: ./backend
         run: |
           npm run start:prod &
           sleep 5
 
       - name: Run tests
+        working-directory: ./backend
         run: npm run test
 
       - name: Run e2e tests
+        working-directory: ./backend
         run: npm run test:e2e
