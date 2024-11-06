@@ -1,92 +1,44 @@
 # Teamtailor Technical Task
 
-The app is based on NestJS, which integrates with Teamtailor API and allows you to fetch and process data. The project has full Docker configuration and CI/CD using GitHub Actions.
+This is a technical task for Teamtailor. The task is about to create a API integration with Teamtailor's API and also to
+introduce simple frontend to let user download the processed data.
+
+![Image showing UI of Teamtailor Technical Task. Image shows the title, the name of the author and the green button to download the file.](screenshot.png)
 
 ## Requirements
-
-- [Node.js](https://nodejs.org/) >= 20.18.0 (LTS)
 - [Docker](https://www.docker.com/) >= 27.2.0 (optional for containerized run)
 - [Docker Compose](https://docs.docker.com/compose/) >= 2.29.2-desktop.2 (optional for containerized run)
 
 ## Installation
 
-1. Clone the repository:
+1. Clone the repository
 
-   ```bash
-   git clone https://github.com/bartosz-szymanski-dev/teamtailor-technical-task.git
-   cd teamtailor-technical-task
-   ```
+```bash
+git clone https://github.com/bartosz-szymanski-dev/teamtailor-technical-task.git
+cd teamtailor-technical-task
+```
 
-2. Install dependencies:
+2. Create `.env` file in the `backend` directory and fill it with the following content:
 
-   ```bash
-    npm install
-    ```
-   
-3. Create a `.env` file in the root directory and add the following environment variables:
+```text
+TEAMTAILOR_API_URL=https://api.teamtailor.com/v1
+TEAMTAILOR_API_VERSION=20240404
+TEAMTAILOR_API_KEY=your-api-key
+THROTTLING_MAX_REQUESTS=50
+THROTTLING_SECONDS=10
+```
 
-   ```bash
-   TEAMTAILOR_API_URL=https://api.teamtailor.com/v1
-   TEAMTAILOR_API_VERSION=20240404
-   TEAMTAILOR_API_KEY=your-api-key
-   ```
-    Replace `your-api-key` with your Teamtailor API key.
+3. Docker
 
-4. Run the app:
+```bash
+docker-compose up -d
+```
 
-   ```bash
-   npm run start
-   ```
-   
-    The app will be available at `http://localhost:3000`.
+4. Check if the containers are running
+
+```bash
+docker ps
+```
 
 ## Usage
-
-The app has three endpoints:
-
-1. `/candidate/list` - method: `GET` - fetches list of candidates with their job-applications.
-2. `/csv/create` - method: `POST` -  creates a CSV file based on the input back from `/candidate/list`.
-3. `/csv/download` - method: `GET` - downloads the CSV file created by `/csv/create`.
-
-## Testing
-
-To run tests, use the following command:
-
-```bash
-npm run test
-```
-
-### E2E Testing
-
-To run E2E tests, use the following command:
-
-```bash
-
-npm run test:e2e
-```
-
-## Docker
-
-To run the app in a Docker container, use the following commands:
-
-1. Build the Docker image:
-
-   ```bash
-   docker build -t teamtailor-technical-task .
-   ```
-   
-2. Run the Docker container:
-
-   ```bash
-    docker run -p 3000:3000 -d teamtailor-technical-task
-    ```
-   
-    The app will be available at `http://localhost:3000`.
-
-## CI/CD
-
-The project has CI/CD using GitHub Actions. The workflow is triggered on every push to the `main` branch. The workflow consists of the following steps:
-
-1. Install Node.js
-2. Install dependencies
-3. Run tests
+Simply open your browser and go to `http://localhost:8080` to access the frontend.
